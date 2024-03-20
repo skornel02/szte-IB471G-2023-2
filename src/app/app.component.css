@@ -1,0 +1,15 @@
+.router-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.router-page {
+    flex-grow: 1;
+}
+
+.router-sidenav {
+    flex-shrink: 0;
+    width: 150px;
+    background-color: #f5f5f5;
+}
