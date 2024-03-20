@@ -7,7 +7,9 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:router-ui": "node dist/router-ui/server/server.mjs"
+    "serve:ssr:router-ui": "node dist/router-ui/server/server.mjs",
+    "format": "prettier -w .",
+    "publish": "ng deploy"
   },
   "private": true,
   "dependencies": {
@@ -15,6 +17,7 @@
     "@angular/common": "^17.2.0",
     "@angular/compiler": "^17.2.0",
     "@angular/core": "^17.2.0",
+    "@angular/fire": "17.0.1",
     "@angular/forms": "^17.2.0",
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
@@ -39,6 +42,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "3.2.5",
     "typescript": "~5.3.2"
   }
 }

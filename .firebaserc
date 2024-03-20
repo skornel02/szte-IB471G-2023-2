@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "router-ui-szte": {
+      "hosting": {
+        "router-ui": [
+          "router-ui-szte"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "router-ui-szte"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "hosting": [
+    {
+      "target": "router-ui",
+      "public": "dist/router-ui/browser",
+      "frameworksBackend": {
+        "region": "europe-west1"
+      }
+    }
+  ]
+}
