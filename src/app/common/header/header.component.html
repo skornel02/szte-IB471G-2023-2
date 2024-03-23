@@ -1,3 +1,12 @@
-<mat-toolbar color="primary" class="example-toolbar">
+<mat-toolbar
+    color="primary"
+    class="example-toolbar">
+    @if (mobile) {
+        <button
+            mat-icon-button
+            (click)="openMenu()">
+            <mat-icon>menu</mat-icon>
+        </button>
+    }
     <h1 class="example-app-name">Router UI</h1>
 </mat-toolbar>

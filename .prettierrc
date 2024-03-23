@@ -5,8 +5,9 @@
     "arrowParens": "avoid",
     "bracketSameLine": true,
     "bracketSpacing": true,
+    "singleAttributePerLine": true,
     "tabWidth": 4,
-    "printWidth": 150,
+    "printWidth": 100,
     "htmlWhitespaceSensitivity": "ignore",
     "overrides": [
         {

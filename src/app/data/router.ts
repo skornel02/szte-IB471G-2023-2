@@ -1,3 +1,1 @@
-export default interface Router {
-    
-}
+export default interface Router {}

@@ -1,15 +1,21 @@
 <main class="router-container">
-    <app-header />
-    
+    <app-header
+        [mobile]="mobileQuery.matches"
+        (menuOpened)="sidenav.toggle()" />
+
     <mat-sidenav-container class="router-page">
-        <mat-sidenav #sidenav mode="side" opened class="router-sidenav">
+        <mat-sidenav
+            #sidenav
+            [mode]="mobileQuery.matches ? 'over' : 'side'"
+            [opened]="mobileQuery.matches ? false : true"
+            class="router-sidenav">
             <app-sidenav />
         </mat-sidenav>
-    
+
         <mat-sidenav-content class="router-content">
-            content
+            <router-outlet />
         </mat-sidenav-content>
     </mat-sidenav-container>
-    
+
     <app-footer />
 </main>
