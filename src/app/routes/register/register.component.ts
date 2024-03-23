@@ -64,6 +64,22 @@ export class RegisterComponent {
                         this.toastr.error('Email already in use!', 'Error registering!');
                         return;
                     }
+                    if (error.code === 'auth/invalid-email') {
+                        this.toastr.error('Invalid email!', 'Error registering!');
+                        return;
+                    }
+                    if (error.code === 'auth/weak-password') {
+                        this.toastr.error('Password is too weak!', 'Error registering!');
+                        return;
+                    }
+                    if (error.code === 'auth/too-many-requests') {
+                        this.toastr.error(
+                            'Too many requests! Try again later!',
+                            'Error registering!'
+                        );
+                        return;
+                    }
+                    
                 }
                 this.toastr.error(`${error}`, 'Error logging in!');
                 console.error('Error logging in:', error);

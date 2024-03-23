@@ -56,7 +56,7 @@ export class LoginComponent {
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     if (error.code === 'auth/invalid-credential') {
-                        this.toastr.error('User not found!', 'Error logging in!');
+                        this.toastr.error('User not found or invalid password!', 'Error logging in!');
                         return;
                     }
                     if (error.code === 'auth/wrong-password') {
