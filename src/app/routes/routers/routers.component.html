@@ -1,0 +1,10 @@
+<section>
+    <h1>Routers</h1>
+    <ul>
+        @for (router of $routers | async; track $index) {
+        <li>
+            {{router.name}}
+        </li>
+        }
+    </ul>
+</section>

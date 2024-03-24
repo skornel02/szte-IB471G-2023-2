@@ -4,11 +4,16 @@ import { LoginComponent } from './routes/login/login.component';
 import { RegisterComponent } from './routes/register/register.component';
 import { LogoutComponent } from './routes/logout/logout.component';
 import { authenticatedGuard } from './helpers/authenticated.guard';
+import { RoutersComponent } from './routes/routers/routers.component';
 
 export const routes: Routes = [
     {
         path: '',
         component: MainPageComponent,
+    },
+    {
+        path: 'routers',
+        component: RoutersComponent,
     },
     {
         path: 'login',
