@@ -5,6 +5,7 @@ import { RegisterComponent } from './routes/register/register.component';
 import { LogoutComponent } from './routes/logout/logout.component';
 import { authenticatedGuard } from './helpers/authenticated.guard';
 import { RoutersComponent } from './routes/routers/routers.component';
+import { RouterDetailsComponent } from './routes/router-details/router-details.component';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,11 @@ export const routes: Routes = [
     {
         path: 'routers',
         component: RoutersComponent,
+    },
+    {
+        path: 'routers/:routerId',
+        component: RouterDetailsComponent,
+        canActivate: [authenticatedGuard]
     },
     {
         path: 'login',
@@ -26,6 +32,5 @@ export const routes: Routes = [
     {
         path: 'logout',
         component: LogoutComponent,
-        canActivate: [authenticatedGuard]
     },
 ];

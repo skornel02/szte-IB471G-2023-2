@@ -1,10 +1,29 @@
 <section>
     <h1>Routers</h1>
-    <ul>
+    <mat-list>
         @for (router of $routers | async; track $index) {
-        <li>
-            {{router.name}}
-        </li>
+            <mat-list-item>
+                <mat-icon
+                    matListItemIcon
+                    [matBadge]="router.powered ? 'on' : 'off'"
+                    [matBadgeColor]="router.powered ? 'primary' : 'warn'">
+                    router
+                </mat-icon>
+                <h3 matListItemTitle>
+                    {{ router.name }}
+                </h3>
+                <p matListItemLine>
+                    Last modified: {{ router.lastModifiedDate | timestamp | date: 'medium' }} by:
+                    {{ router.lastModifiedBy }}
+                </p>
+                <div matListItemMeta>
+                    <a
+                        mat-icon-button
+                        [routerLink]="['/routers', router.id]">
+                        <mat-icon color="primary">edit</mat-icon>
+                    </a>
+                </div>
+            </mat-list-item>
         }
-    </ul>
+    </mat-list>
 </section>

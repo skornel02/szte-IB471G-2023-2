@@ -14,7 +14,7 @@
                     matInput
                     required />
                 @if (registerForm.get('email')?.errors && registerForm.touched) {
-                    <mat-error>{{ registerForm.get('email')?.errors | errorPipe }}</mat-error>
+                    <mat-error>{{ registerForm.get('email')?.errors | formError }}</mat-error>
                 }
             </mat-form-field>
             <mat-form-field class="full-width">
@@ -26,7 +26,7 @@
                     required
                     type="password" />
                 @if (registerForm.get('password')?.errors && registerForm.touched) {
-                    <mat-error>{{ registerForm.get('password')?.errors | errorPipe }}</mat-error>
+                    <mat-error>{{ registerForm.get('password')?.errors | formError }}</mat-error>
                 }
             </mat-form-field>
             <mat-form-field class="full-width">
@@ -39,12 +39,12 @@
                     type="password" />
                 @if (registerForm.get('passwordAgain')?.errors && registerForm.touched) {
                     <mat-error>
-                        {{ registerForm.get('passwordAgain')?.errors | errorPipe }}
+                        {{ registerForm.get('passwordAgain')?.errors | formError }}
                     </mat-error>
                 }
             </mat-form-field>
             @if (registerForm.errors && registerForm.touched) {
-                <mat-error>{{ registerForm.errors | errorPipe }}</mat-error>
+                <mat-error>{{ registerForm.errors | formError }}</mat-error>
             }
             <button
                 mat-raised-button

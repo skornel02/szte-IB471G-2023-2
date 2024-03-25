@@ -11,7 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { ErrorPipePipe } from '../../pipes/error-pipe.pipe';
+import { FormErrorPipe } from '../../pipes/form-error.pipe';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseError } from '@angular/fire/app';
 
@@ -27,7 +27,7 @@ import { FirebaseError } from '@angular/fire/app';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        ErrorPipePipe,
+        FormErrorPipe,
     ],
 })
 export class LoginComponent {

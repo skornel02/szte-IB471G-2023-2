@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
-import { ErrorPipePipe } from '../../pipes/error-pipe.pipe';
+import { FormErrorPipe } from '../../pipes/form-error.pipe';
 import { confirmPasswordValidator } from '../../helpers/confirm-password.validator';
 import { FirebaseError } from '@angular/fire/app';
 
@@ -26,7 +26,7 @@ import { FirebaseError } from '@angular/fire/app';
         MatFormFieldModule,
         MatInputModule,
         MatButtonModule,
-        ErrorPipePipe,
+        FormErrorPipe,
     ],
     templateUrl: './register.component.html',
     styleUrl: './register.component.css',

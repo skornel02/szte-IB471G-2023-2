@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'errorPipe',
+    name: 'formError',
     standalone: true,
 })
-export class ErrorPipePipe implements PipeTransform {
+export class FormErrorPipe implements PipeTransform {
     transform(value: unknown, ...args: unknown[]): unknown {
         if (value === null || typeof value !== 'object') {
             return null;

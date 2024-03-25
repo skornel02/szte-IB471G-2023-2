@@ -1,13 +1,11 @@
-import { DocumentReference } from "@angular/fire/firestore";
+import { DocumentReference, Timestamp } from "@angular/fire/firestore";
 import Router from "./router";
 
 export default interface Interface {
-    router: DocumentReference<Router>;
-
     name: string;
     type : InterfaceType;
 
-    lastModifiedDate: Date;
+    lastModifiedDate: Timestamp;
     lastModifiedBy: string;
     
     mode: InterfaceMode;
