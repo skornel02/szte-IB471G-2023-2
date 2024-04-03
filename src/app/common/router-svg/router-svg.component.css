@@ -1,0 +1,43 @@
+#port1 {
+    cursor: pointer;
+}
+
+#port2 {
+    cursor: pointer;
+}
+
+#port3 {
+    cursor: pointer;
+}
+
+#port4 {
+    cursor: pointer;
+}
+
+#port5 {
+    cursor: pointer;
+}
+
+#wifi {
+    cursor: pointer;
+}
+
+.interfaceUp {
+    fill: green !important;
+    animation: blinker .5s linear infinite;
+}
+
+.interfaceDown {
+    fill: grey !important;
+}
+
+.interfaceInvalid {
+    fill: red !important;
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}

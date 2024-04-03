@@ -34,3 +34,11 @@ export const InterfaceModes = [
 ]
 
 export type InterfaceMode = typeof InterfaceModes[number];
+
+export const InterfaceStatuses = [
+    "Up",
+    "Invalid",
+    "Down",
+] as const;
+
+export type InterfaceStatus = typeof InterfaceStatuses[number];
