@@ -8,6 +8,5 @@ export default interface Bridge {
     lastModifiedDate: Timestamp;
     lastModifiedBy: string;
 
-    connectedInterfaces: DocumentReference<Interface>[];
-    virtualInterface : DocumentReference<Interface>;
+    virtualInterface : DocumentReference;
 }

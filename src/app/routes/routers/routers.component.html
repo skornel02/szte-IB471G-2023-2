@@ -1,5 +1,12 @@
 <section>
     <h1>Routers</h1>
+    <p>
+        <a
+            mat-raised-button
+            (click)="createRouter()">
+            Create new router
+        </a>
+    </p>
     <mat-list>
         @for (router of $routers | async; track $index) {
             <mat-list-item>
@@ -17,6 +24,12 @@
                     {{ router.lastModifiedBy }}
                 </p>
                 <div matListItemMeta>
+                    <button
+                        mat-icon-button
+                        [matMenuTriggerFor]="menu"
+                        [matMenuTriggerData]="{ routerId: router.id }">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
                     <a
                         mat-icon-button
                         [routerLink]="['/routers', router.id]">
@@ -27,3 +40,16 @@
         }
     </mat-list>
 </section>
+
+<mat-menu #menu="matMenu">
+    <ng-template
+        matMenuContent
+        let-routerId="routerId">
+        <button
+            mat-menu-item
+            (click)="deleteRouter(routerId)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+        </button>
+    </ng-template>
+</mat-menu>

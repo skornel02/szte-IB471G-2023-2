@@ -1,5 +1,19 @@
-<p>router-details works {{routerId}}!</p>
 
-<app-router-svg>
-    
-</app-router-svg>
+@if (loaded) {
+    <h1>{{router?.name}}</h1>
+    <div class="details">
+        <p >
+            Last modified: {{router?.lastModifiedDate | timestamp | date: 'medium'}}
+        </p>
+        <p>
+            Last modified by: {{router?.lastModifiedBy}}
+        </p>
+        <p>
+            Powered: {{router?.powered ? 'on' : 'off'}}
+        </p>
+    </div>
+
+    <app-router-svg (interfaceClick)="handleInterfaceClick($event)">
+        
+    </app-router-svg>    
+}

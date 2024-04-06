@@ -7,7 +7,7 @@ export const authenticatedGuard: CanActivateFn = async (route, state): Promise<b
   const router = inject(Router);
   const auth = inject(RouterAuthService);
 
-  const user = await firstValueFrom(auth.user$);
+  const user = await auth.user;
 
   return user !== null || router.parseUrl('/login');
 };

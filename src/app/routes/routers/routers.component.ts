@@ -7,6 +7,9 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { TimestampPipe } from '../../pipes/timestamp.pipe';
 import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { CreateRouterComponent } from '../../common/forms/create-router/create-router.component';
+import { Dialog, DialogModule } from '@angular/cdk/dialog';
 
 @Component({
     selector: 'app-routers',
@@ -20,7 +23,9 @@ import { MatButtonModule } from '@angular/material/button';
         MatIconModule,
         MatBadgeModule,
         MatButtonModule,
+        MatMenuModule,
         RouterModule,
+        DialogModule,
     ],
     templateUrl: './routers.component.html',
     styleUrl: './routers.component.css',
@@ -28,7 +33,26 @@ import { MatButtonModule } from '@angular/material/button';
 export class RoutersComponent {
     $routers = this.db.$routers;
 
-    constructor(private db: DatabaseService) {
+    constructor(
+        private db: DatabaseService,
+        private dialog: Dialog
+    ) {}
+
+    async createRouter() {
+        console.log('Create router');
+        const ref = this.dialog.open(CreateRouterComponent, {});
+
+        const result = await ref.closed.toPromise();
+
+        console.log('Result: ', result);
+    }
+
+    async deleteRouter(routerId: string) {
+        if (!confirm('Are you sure you want to delete this router?')) {
+            return;
+        }
         
+        console.log('Delete router: ', routerId);
+        await this.db.deleteRouter(routerId);
     }
 }

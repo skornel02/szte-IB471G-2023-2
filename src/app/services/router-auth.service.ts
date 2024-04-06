@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Auth, User, user } from '@angular/fire/auth';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +13,10 @@ export class RouterAuthService implements OnDestroy {
 
     constructor() {
         this.userSubscription = this.user$.subscribe(this.handleUserUpdate);
+    }
+
+    get user (): Promise<User | null>{
+        return firstValueFrom(this.user$);
     }
 
     handleUserUpdate(user: User | null) {

@@ -16,7 +16,7 @@ export default interface Interface {
     gateway?: string;
     
     /* Slave mode */
-    master: DocumentReference<Interface>;
+    master?: DocumentReference;
 }
 
 export const InterfaceTypes = [
@@ -31,7 +31,7 @@ export const InterfaceModes = [
     "DHCP",
     "Static",
     "Slave"
-]
+] as const;
 
 export type InterfaceMode = typeof InterfaceModes[number];
 
