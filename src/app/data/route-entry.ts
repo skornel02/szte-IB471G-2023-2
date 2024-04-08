@@ -1,12 +1,9 @@
-import { DocumentReference, Timestamp } from "@angular/fire/firestore";
-import Router from "./router";
-import Interface from "./interface";
+import { DocumentReference, Timestamp } from '@angular/fire/firestore';
+import Router from './router';
+import Interface from './interface';
 
 export default interface RouteEntry {
     source: RouteEntrySource;
-
-    lastModifiedDate: Timestamp;
-    lastModifiedBy: string;
 
     network: string;
     netmask: string;
@@ -16,10 +13,6 @@ export default interface RouteEntry {
     metric?: number;
 }
 
-export const RouteEntrySources = [
-    "Attached",
-    "Static",
-    "NextHop",
-] as const;
+export const RouteEntrySources = ['Attached', 'Static', 'NextHop'] as const;
 
-export type RouteEntrySource = typeof RouteEntrySources[number];
+export type RouteEntrySource = (typeof RouteEntrySources)[number];

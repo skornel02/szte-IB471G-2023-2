@@ -51,7 +51,7 @@ export class RoutersComponent {
         if (!confirm('Are you sure you want to delete this router?')) {
             return;
         }
-        
+
         console.log('Delete router: ', routerId);
         await this.db.deleteRouter(routerId);
     }

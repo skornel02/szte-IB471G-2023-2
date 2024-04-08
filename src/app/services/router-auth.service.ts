@@ -15,12 +15,12 @@ export class RouterAuthService implements OnDestroy {
         this.userSubscription = this.user$.subscribe(this.handleUserUpdate);
     }
 
-    get user (): Promise<User | null>{
+    get user(): Promise<User | null> {
         return firstValueFrom(this.user$);
     }
 
     handleUserUpdate(user: User | null) {
-        console.log("User changed to: ", user?.email ?? "-");
+        console.log('User changed to: ', user?.email ?? '-');
         console.log(user);
     }
 

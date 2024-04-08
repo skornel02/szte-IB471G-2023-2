@@ -19,7 +19,7 @@ export const routes: Routes = [
     {
         path: 'routers/:routerId',
         component: RouterDetailsComponent,
-        canActivate: [authenticatedGuard]
+        canActivate: [authenticatedGuard],
     },
     {
         path: 'login',

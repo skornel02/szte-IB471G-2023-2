@@ -1,11 +1,25 @@
-import { Injectable, OnDestroy, inject } from "@angular/core";
-import { RouterAuthService } from "./router-auth.service";
-import { DocumentSnapshot, Firestore, Timestamp, addDoc, collection, collectionData, deleteDoc, doc, documentId, getDoc, query, setDoc, updateDoc } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
-import Router from "../data/router";
-import Interface from "../data/interface";
-import Bridge from "../data/bridge";
-import RouteEntry from "../data/route-entry";
+import { Injectable, OnDestroy, inject } from '@angular/core';
+import { RouterAuthService } from './router-auth.service';
+import {
+    DocumentSnapshot,
+    Firestore,
+    Timestamp,
+    addDoc,
+    collection,
+    collectionData,
+    deleteDoc,
+    doc,
+    documentId,
+    getDoc,
+    query,
+    setDoc,
+    updateDoc,
+} from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import Router from '../data/router';
+import Interface from '../data/interface';
+import Bridge from '../data/bridge';
+import RouteEntry from '../data/route-entry';
 
 @Injectable({
     providedIn: 'root',
@@ -30,7 +44,7 @@ export class DatabaseService {
         return collection(this.routersCollection, routerId, 'route-entries');
     }
 
-    getBridgeCollection(routerId: string) { 
+    getBridgeCollection(routerId: string) {
         return collection(this.routersCollection, routerId, 'bridges');
     }
 
@@ -44,8 +58,8 @@ export class DatabaseService {
         if (!user) {
             throw new Error('User not logged in');
         }
-        
-        const router = <Router> {
+
+        const router = <Router>{
             ownerEmail: user.email ?? '-',
             name: name,
             lastModifiedDate: Timestamp.fromDate(new Date()),
@@ -67,8 +81,6 @@ export class DatabaseService {
             ipAddress: '123.111.11.72',
             gateway: '10.12.11.1',
             netmask: '255.255.0.0',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
 
         const switchInterface = await this.addInterface(result.id, {
@@ -77,15 +89,12 @@ export class DatabaseService {
             ipAddress: '192.168.0.1',
             netmask: '255.255.255.0',
             type: 'VirtualPort',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
 
         this.addBridge(result.id, {
             name: 'local-bridge',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
-            virtualInterface: switchInterface
+            virtualInterfaceName: 'switch',
+            virtualInterface: switchInterface,
         });
 
         this.addInterface(result.id, {
@@ -93,8 +102,6 @@ export class DatabaseService {
             mode: 'Slave',
             master: switchInterface,
             type: 'PhysicalPort',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
 
         this.addInterface(result.id, {
@@ -102,8 +109,6 @@ export class DatabaseService {
             mode: 'Slave',
             master: switchInterface,
             type: 'PhysicalPort',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
 
         this.addInterface(result.id, {
@@ -111,8 +116,6 @@ export class DatabaseService {
             mode: 'Slave',
             master: switchInterface,
             type: 'PhysicalPort',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
 
         this.addInterface(result.id, {
@@ -120,8 +123,6 @@ export class DatabaseService {
             mode: 'Slave',
             master: switchInterface,
             type: 'PhysicalPort',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
 
         this.addInterface(result.id, {
@@ -129,14 +130,12 @@ export class DatabaseService {
             mode: 'Slave',
             master: switchInterface,
             type: 'WiFiPort',
-            lastModifiedBy: router.lastModifiedBy,
-            lastModifiedDate: router.lastModifiedDate,
         });
-        
+
         return router;
     }
 
-    async deleteRouter (routerId: string): Promise<void> {
+    async deleteRouter(routerId: string): Promise<void> {
         const user = await this.auth.user;
 
         if (!user) {
@@ -144,6 +143,23 @@ export class DatabaseService {
         }
 
         await deleteDoc(doc(this.routersCollection, routerId));
+    }
+
+    async toggleRouterPower(routerId: string): Promise<void> {
+        const user = await this.auth.user;
+
+        if (!user) {
+            throw new Error('User not logged in');
+        }
+
+        const router = await getDoc(doc(this.routersCollection, routerId));
+        const routerData = router.data() as Router;
+
+        await updateDoc(doc(this.routersCollection, routerId), {
+            powered: !routerData.powered,
+            lastModifiedBy: user.email ?? '-',
+            lastModifiedDate: Timestamp.fromDate(new Date()),
+        });
     }
 
     getInterfaces(routerId: string): Observable<Interface[]> {

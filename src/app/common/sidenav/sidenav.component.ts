@@ -21,7 +21,7 @@ export class SidenavComponent implements OnDestroy {
     constructor(auth: RouterAuthService) {
         this.userSubscription = auth.user$.subscribe(user => (this.user = user));
     }
-    
+
     ngOnDestroy(): void {
         this.userSubscription.unsubscribe();
     }

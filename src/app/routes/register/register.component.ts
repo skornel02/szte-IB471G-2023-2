@@ -79,7 +79,6 @@ export class RegisterComponent {
                         );
                         return;
                     }
-                    
                 }
                 this.toastr.error(`${error}`, 'Error logging in!');
                 console.error('Error logging in:', error);
