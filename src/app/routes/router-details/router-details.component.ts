@@ -10,13 +10,28 @@ import { TimestampPipe } from '../../pipes/timestamp.pipe';
 import { DatePipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterAuthService } from '../../services/router-auth.service';
+import { RouteListComponent } from '../../common/route-list/route-list.component';
+import { BridgeListComponent } from '../../common/bridge-list/bridge-list.component';
+import { InterfaceListComponent } from '../../common/interface-list/interface-list.component';
+import { InterfaceEditorComponent } from '../../common/interface-editor/interface-editor.component';
 
 @Component({
     selector: 'app-router-details',
     standalone: true,
     templateUrl: './router-details.component.html',
     styleUrl: './router-details.component.css',
-    imports: [RouterSvgComponent, TimestampPipe, DatePipe, MatButtonModule, MatTableModule],
+    imports: [
+        RouterSvgComponent,
+        TimestampPipe,
+        DatePipe,
+        MatButtonModule,
+        MatTableModule,
+        RouteListComponent,
+        BridgeListComponent,
+        InterfaceListComponent,
+        InterfaceEditorComponent,
+    ],
 })
 export class RouterDetailsComponent implements OnInit, OnDestroy {
     private db: DatabaseService = inject(DatabaseService);
@@ -80,10 +95,6 @@ export class RouterDetailsComponent implements OnInit, OnDestroy {
 
     async handleInterfaceClick(interfaceName: string) {
         console.log('Interface clicked: ', interfaceName);
-
-        console.log(this.interfaces);
-        console.log(this.bridges);
-        console.log(this.routeEntries);
 
         this.selectedInterface = this.interfaces?.filter(_ => _.name == interfaceName)[0] ?? null;
         console.log('Selected interface: ', this.selectedInterface);

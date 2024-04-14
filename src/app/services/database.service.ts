@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { RouterAuthService } from './router-auth.service';
 import {
+    DocumentReference,
     DocumentSnapshot,
     Firestore,
     Timestamp,
@@ -9,11 +10,13 @@ import {
     collectionData,
     deleteDoc,
     doc,
-    documentId,
     getDoc,
+    getDocs,
+    orderBy,
     query,
     setDoc,
     updateDoc,
+    where,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import Router from '../data/router';
@@ -28,7 +31,7 @@ export class DatabaseService {
     private firestore: Firestore = inject(Firestore);
     private auth: RouterAuthService = inject(RouterAuthService);
 
-    private routersCollection;
+    routersCollection;
     $routers: Observable<Router[]>;
 
     constructor() {
@@ -50,89 +53,6 @@ export class DatabaseService {
 
     getRouter(routerId: string): Promise<DocumentSnapshot<Router>> {
         return getDoc(doc(this.routersCollection, routerId)) as Promise<DocumentSnapshot<Router>>;
-    }
-
-    async createRouter(name: string): Promise<Router> {
-        const user = await this.auth.user;
-
-        if (!user) {
-            throw new Error('User not logged in');
-        }
-
-        const router = <Router>{
-            ownerEmail: user.email ?? '-',
-            name: name,
-            lastModifiedDate: Timestamp.fromDate(new Date()),
-            lastModifiedBy: user.email ?? '-',
-            powered: false,
-        };
-
-        const result = await addDoc(this.routersCollection, router);
-        router.id = result.id;
-
-        updateDoc(doc(this.routersCollection, result.id), {
-            id: result.id,
-        });
-
-        this.addInterface(result.id, {
-            name: 'port1',
-            mode: 'Static',
-            type: 'PhysicalPort',
-            ipAddress: '123.111.11.72',
-            gateway: '10.12.11.1',
-            netmask: '255.255.0.0',
-        });
-
-        const switchInterface = await this.addInterface(result.id, {
-            name: 'switch',
-            mode: 'Static',
-            ipAddress: '192.168.0.1',
-            netmask: '255.255.255.0',
-            type: 'VirtualPort',
-        });
-
-        this.addBridge(result.id, {
-            name: 'local-bridge',
-            virtualInterfaceName: 'switch',
-            virtualInterface: switchInterface,
-        });
-
-        this.addInterface(result.id, {
-            name: 'port2',
-            mode: 'Slave',
-            master: switchInterface,
-            type: 'PhysicalPort',
-        });
-
-        this.addInterface(result.id, {
-            name: 'port3',
-            mode: 'Slave',
-            master: switchInterface,
-            type: 'PhysicalPort',
-        });
-
-        this.addInterface(result.id, {
-            name: 'port4',
-            mode: 'Slave',
-            master: switchInterface,
-            type: 'PhysicalPort',
-        });
-
-        this.addInterface(result.id, {
-            name: 'port5',
-            mode: 'Slave',
-            master: switchInterface,
-            type: 'PhysicalPort',
-        });
-
-        this.addInterface(result.id, {
-            name: 'wifi',
-            mode: 'Slave',
-            master: switchInterface,
-            type: 'WiFiPort',
-        });
-
-        return router;
     }
 
     async deleteRouter(routerId: string): Promise<void> {
@@ -167,6 +87,21 @@ export class DatabaseService {
         return collectionData(interfacesCollection) as Observable<Interface[]>;
     }
 
+    async updateInterface(routerId: string, interf: Interface) {
+        const interfaceCollection = this.getInterfaceCollection(routerId);
+        const interfaceQuery = query(interfaceCollection, where('name', '==', interf.name));
+
+        const docs = await getDocs(interfaceQuery);
+
+        for (const doc of docs.docs) {
+            await setDoc(doc.ref, interf);
+        }
+    }
+
+    getInterfaceReference(routerId: string, interfaceId: string) {
+        return doc(this.getInterfaceCollection(routerId), interfaceId);
+    }
+
     getBridges(routerId: string): Observable<Bridge[]> {
         const bridgesCollection = this.getBridgeCollection(routerId);
         return collectionData(bridgesCollection) as Observable<Bridge[]>;
@@ -182,9 +117,47 @@ export class DatabaseService {
         return addDoc(interfacesCollection, interf);
     }
 
-    addBridge(routerId: string, bridge: Bridge) {
+    async addBridge(
+        routerId: string,
+        bridgeName: string,
+        interfaceName: string
+    ): Promise<[DocumentReference, DocumentReference]> {
+        const switchInterface = await this.addInterface(routerId, {
+            name: interfaceName,
+            mode: 'Static',
+            ipAddress: '192.168.0.1',
+            netmask: '255.255.255.0',
+            type: 'VirtualPort',
+        });
+
+        const bridge = await this.addBridgePrivate(routerId, {
+            name: bridgeName,
+            virtualInterfaceName: interfaceName,
+            virtualInterface: switchInterface,
+        });
+
+        return [switchInterface, bridge];
+    }
+
+    private addBridgePrivate(routerId: string, bridge: Bridge) {
         const bridgesCollection = this.getBridgeCollection(routerId);
         return addDoc(bridgesCollection, bridge);
+    }
+
+    async deleteBridge(routerId: string, bridge: Bridge) {
+        const bridgesCollection = this.getBridgeCollection(routerId);
+        const bridgeQuery = query(bridgesCollection, where('name', '==', bridge.name));
+
+        const docs = await getDocs(bridgeQuery);
+
+        for (const doc of docs.docs) {
+            const selectedBridge = doc.data() as Bridge;
+
+            if (selectedBridge.virtualInterface.path === bridge.virtualInterface.path) {
+                await deleteDoc(doc.ref);
+                await deleteDoc(selectedBridge.virtualInterface);
+            }
+        }
     }
 
     addRouteEntry(routerId: string, routeEntry: RouteEntry) {

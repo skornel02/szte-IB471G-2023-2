@@ -1,0 +1,59 @@
+<!-- Interfaces -->
+<div class="interfaces">
+    <h2>Interfaces</h2>
+    <table
+        mat-table
+        [dataSource]="interfaceList"
+        class="mat-elevation-z8">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Name
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let interface"
+                (click)="handleInterfaceClick(interface.name)"
+                [class.selected]="selectedInterface === interface">
+                {{ interface.name }}
+            </td>
+        </ng-container>
+
+        <!-- Type column -->
+        <ng-container matColumnDef="type">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Type
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let interface">
+                {{ interface.type }}
+            </td>
+        </ng-container>
+
+        <!-- Mode column -->
+        <ng-container matColumnDef="mode">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Mode
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let interface">
+                {{ interface.mode }}
+            </td>
+        </ng-container>
+
+        <tr
+            mat-header-row
+            *matHeaderRowDef="['name', 'type', 'mode']"></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: ['name', 'type', 'mode']"></tr>
+    </table>
+</div>

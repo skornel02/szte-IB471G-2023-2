@@ -1,6 +1,4 @@
 import { DocumentReference, Timestamp } from '@angular/fire/firestore';
-import Router from './router';
-import Interface from './interface';
 
 export default interface RouteEntry {
     source: RouteEntrySource;
@@ -9,7 +7,7 @@ export default interface RouteEntry {
     netmask: string;
 
     gateway?: string;
-    interface?: DocumentReference<Interface>;
+    interface?: DocumentReference;
     metric?: number;
 }
 

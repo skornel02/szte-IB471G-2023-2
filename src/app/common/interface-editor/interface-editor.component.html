@@ -1,0 +1,98 @@
+<div class="selected-interface">
+    @if (interface) {
+        <mat-card class="form-card">
+            <mat-card-header>
+                <mat-card-title>Edit interface '{{ interface.name }}'</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <form
+                    [formGroup]="routerForm"
+                    (ngSubmit)="onSubmit()">
+                    <mat-form-field class="full-width">
+                        <mat-label>Mode</mat-label>
+
+                        <mat-select
+                            name="mode"
+                            formControlName="mode">
+                            <mat-option value="Static">Static</mat-option>
+                            <mat-option value="DHCP">Automatic (DHCP)</mat-option>
+                            <mat-option value="Slave">Slave (Bridge)</mat-option>
+                        </mat-select>
+                        @if (routerForm.get('mode')?.errors && routerForm.touched) {
+                            <mat-error>{{ routerForm.get('mode')?.errors | formError }}</mat-error>
+                        }
+                    </mat-form-field>
+                    @if (routerForm.value.mode === 'Static') {
+                        <mat-form-field class="full-width">
+                            <mat-label>IP address</mat-label>
+                            <input
+                                name="ipAddress"
+                                formControlName="ipAddress"
+                                matInput />
+                            @if (routerForm.get('ipAddress')?.errors && routerForm.touched) {
+                                <mat-error>
+                                    {{ routerForm.get('ipAddress')?.errors | formError }}
+                                </mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>IP netmask</mat-label>
+                            <input
+                                name="netmask"
+                                formControlName="netmask"
+                                matInput />
+                            @if (routerForm.get('netmask')?.errors && routerForm.touched) {
+                                <mat-error>
+                                    {{ routerForm.get('netmask')?.errors | formError }}
+                                </mat-error>
+                            }
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Gateway address</mat-label>
+                            <input
+                                name="gateway"
+                                formControlName="gateway"
+                                matInput />
+                            @if (routerForm.get('gateway')?.errors && routerForm.touched) {
+                                <mat-error>
+                                    {{ routerForm.get('gateway')?.errors | formError }}
+                                </mat-error>
+                            }
+                        </mat-form-field>
+                    }
+                    @if (routerForm.value.mode === 'Slave') {
+                        <mat-form-field class="full-width">
+                            <mat-label>Master interface</mat-label>
+
+                            <mat-select
+                                name="master"
+                                formControlName="master">
+                                @for (bridge of bridgeList; track $index) {
+                                    <mat-option [value]="bridge.virtualInterface.id">
+                                        {{ bridge.virtualInterfaceName }}
+                                    </mat-option>
+                                }
+                            </mat-select>
+                            @if (routerForm.get('master')?.errors && routerForm.touched) {
+                                <mat-error>
+                                    {{ routerForm.get('master')?.errors | formError }}
+                                </mat-error>
+                            }
+                        </mat-form-field>
+                    }
+
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        class="full-width"
+                        type="submit"
+                        [disabled]="!routerForm.valid">
+                        Save
+                    </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    } @else {
+        <p>Select an interface to view details</p>
+    }
+</div>

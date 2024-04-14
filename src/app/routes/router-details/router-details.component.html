@@ -3,207 +3,51 @@
 
     <!-- Router details -->
 
-    <div class="details">
-        <p>Last modified: {{ router?.lastModifiedDate | timestamp | date: 'medium' }}</p>
-        <p>Last modified by: {{ router?.lastModifiedBy }}</p>
-        <button
-            mat-button
-            (click)="togglePower()">
-            {{ router?.powered ? 'Turn off' : 'Turn on' }}
-        </button>
-    </div>
+    <section>
+        <div class="details">
+            <p>Last modified: {{ router?.lastModifiedDate | timestamp | date: 'medium' }}</p>
+            <p>Last modified by: {{ router?.lastModifiedBy }}</p>
+            <button
+                mat-button
+                (click)="togglePower()">
+                {{ router?.powered ? 'Turn off' : 'Turn on' }}
+            </button>
+        </div>
+    </section>
 
-    <!-- Router status -->
-    <app-router-svg (interfaceClick)="handleInterfaceClick($event)"></app-router-svg>
+    <section>
+        <!-- Router status -->
+        <app-router-svg (interfaceClick)="handleInterfaceClick($event)"></app-router-svg>
+    </section>
 
-    <!-- Interfaces -->
-    <div class="interfaces">
-        <h2>Interfaces</h2>
-        <table
-            mat-table
-            [dataSource]="interfaces"
-            class="mat-elevation-z8">
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Name
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let interface"
-                    (click)="handleInterfaceClick(interface.name)"
-                    [class.selected]="selectedInterface === interface">
-                    {{ interface.name }}
-                </td>
-            </ng-container>
+    <section>
+        <!-- Selected interface -->
+        <app-interface-editor
+            [routerId]="routerId!"
+            [interface]="selectedInterface"
+            [bridgeList]="bridges"></app-interface-editor>
+    </section>
 
-            <!-- Type column -->
-            <ng-container matColumnDef="type">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Type
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let interface">
-                    {{ interface.type }}
-                </td>
-            </ng-container>
+    <section>
+        <!-- Interfaces -->
+        <app-interface-list
+            [routerId]="routerId!"
+            [interfaceList]="interfaces"
+            (interfaceClick)="handleInterfaceClick($event)"></app-interface-list>
+    </section>
 
-            <!-- Mode column -->
-            <ng-container matColumnDef="mode">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Mode
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let interface">
-                    {{ interface.mode }}
-                </td>
-            </ng-container>
+    <section>
+        <!-- Bridges -->
+        <app-bridge-list
+            [routerId]="routerId!"
+            [bridgeList]="bridges"
+            [interfaceList]="interfaces"></app-bridge-list>
+    </section>
 
-            <tr
-                mat-header-row
-                *matHeaderRowDef="['name', 'type', 'mode']"></tr>
-            <tr
-                mat-row
-                *matRowDef="let row; columns: ['name', 'type', 'mode']"></tr>
-        </table>
-    </div>
-
-    <!-- Selected interface -->
-    <div class="selected-interface">
-        @if (selectedInterface) {
-            <h2>{{ selectedInterface.name }}</h2>
-            <p>Mode: {{ selectedInterface.mode }}</p>
-            <p>IP Address: {{ selectedInterface.ipAddress }}</p>
-            <p>Subnet Mask: {{ selectedInterface.netmask }}</p>
-            <p>Gateway: {{ selectedInterface.gateway }}</p>
-        } @else {
-            <p>Select an interface to view details</p>
-        }
-    </div>
-
-    <!-- Bridges -->
-
-    <div class="bridges">
-        <h2>Bridges</h2>
-        <table
-            mat-table
-            [dataSource]="bridges"
-            class="mat-elevation-z8">
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Name
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let bridge">
-                    {{ bridge.name }}
-                </td>
-            </ng-container>
-
-            <!-- Virtual Interface Name Column -->
-            <ng-container matColumnDef="virtualInterfaceName">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Virtual Interface Name
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let bridge">
-                    {{ bridge.virtualInterfaceName }}
-                </td>
-            </ng-container>
-
-            <tr
-                mat-header-row
-                *matHeaderRowDef="['name', 'virtualInterfaceName']"></tr>
-            <tr
-                mat-row
-                *matRowDef="let row; columns: ['name', 'virtualInterfaceName']"></tr>
-        </table>
-    </div>
-
-    <!-- Route entries -->
-
-    <div class="route-entries">
-        <h2>Route Entries</h2>
-        <table
-            mat-table
-            [dataSource]="routeEntries"
-            class="mat-elevation-z8">
-            <!-- Network Column -->
-            <ng-container matColumnDef="network">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Network
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let route">
-                    {{ route.network }}
-                </td>
-            </ng-container>
-
-            <!-- Netmask Column -->
-            <ng-container matColumnDef="netmask">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Netmask
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let route">
-                    {{ route.netmask }}
-                </td>
-            </ng-container>
-
-            <!-- Source Column -->
-            <ng-container matColumnDef="source">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Source
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let route">
-                    {{ route.source }}
-                </td>
-            </ng-container>
-
-            <!-- Gateway Column -->
-            <ng-container matColumnDef="gateway">
-                <th
-                    mat-header-cell
-                    *matHeaderCellDef>
-                    Gateway
-                </th>
-                <td
-                    mat-cell
-                    *matCellDef="let route">
-                    {{ route.gateway }}
-                </td>
-            </ng-container>
-
-            <tr
-                mat-header-row
-                *matHeaderRowDef="['network', 'netmask', 'source', 'gateway']"></tr>
-            <tr
-                mat-row
-                *matRowDef="let row; columns: ['network', 'netmask', 'source', 'gateway']"></tr>
-        </table>
-    </div>
+    <section>
+        <!-- Route entries -->
+        <app-route-list
+            [routerId]="routerId!"
+            [routeList]="routeEntries"></app-route-list>
+    </section>
 }

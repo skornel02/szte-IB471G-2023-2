@@ -11,13 +11,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormErrorPipe } from '../../../pipes/form-error.pipe';
-import { RouterAuthService } from '../../../services/router-auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatabaseService } from '../../../services/database.service';
 import { Router } from '@angular/router';
+import { BusinessService } from '../../../services/business.service';
 
 @Component({
-    selector: 'app-create-router',
+    selector: 'app-create-router-form',
     standalone: true,
     imports: [
         FormsModule,
@@ -28,12 +28,12 @@ import { Router } from '@angular/router';
         MatButtonModule,
         FormErrorPipe,
     ],
-    templateUrl: './create-router.component.html',
-    styleUrl: './create-router.component.css',
+    templateUrl: './create-router.component-form.html',
+    styleUrl: './create-router.component-form.css',
 })
-export class CreateRouterComponent {
+export class CreateRouterFormComponent {
     private router: Router = inject(Router);
-    private database: DatabaseService = inject(DatabaseService);
+    private business: BusinessService = inject(BusinessService);
     private toastr: ToastrService = inject(ToastrService);
     routerForm: FormGroup;
 
@@ -46,7 +46,7 @@ export class CreateRouterComponent {
     async onSubmit() {
         if (this.routerForm.valid) {
             try {
-                const router = await this.database.createRouter(this.routerForm.value.name);
+                const router = await this.business.createRouter(this.routerForm.value.name);
 
                 this.toastr.success('Router created!', 'Success!');
                 console.log('Router created: ', router);

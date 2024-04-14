@@ -14,6 +14,7 @@ import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { FormErrorPipe } from '../../pipes/form-error.pipe';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseError } from '@angular/fire/app';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -33,6 +34,8 @@ import { FirebaseError } from '@angular/fire/app';
 export class LoginComponent {
     private auth: Auth = inject(Auth);
     private toastr: ToastrService = inject(ToastrService);
+    private router: Router = inject(Router);
+
     loginForm: FormGroup;
 
     constructor(private fb: FormBuilder) {
@@ -53,6 +56,8 @@ export class LoginComponent {
 
                 this.toastr.success('Redirecting you to your page!', 'Successful login!');
                 console.log('User is logged in');
+
+                this.router.navigate(['/routers']);
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     if (error.code === 'auth/invalid-credential') {

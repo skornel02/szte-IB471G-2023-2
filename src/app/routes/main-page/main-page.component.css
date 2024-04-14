@@ -1,0 +1,12 @@
+h1 {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 3rem;
+}
+
+article {
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

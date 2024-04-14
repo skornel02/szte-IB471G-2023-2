@@ -27,6 +27,10 @@ export class FormErrorPipe implements PipeTransform {
             return 'Passwords do not match!';
         }
 
+        if ('invalidIp' in value) {
+            return 'Invalid IP address!';
+        }
+
         console.log('Unknown error reason: ', value);
         return 'Invalid value!';
     }

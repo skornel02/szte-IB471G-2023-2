@@ -20,3 +20,8 @@ h1 {
 .details p {
     word-wrap: break-word;
 }
+
+section {
+    margin: 0.5rem auto;
+    padding: 1rem;
+}

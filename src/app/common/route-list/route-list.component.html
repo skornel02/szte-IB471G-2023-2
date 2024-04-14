@@ -1,0 +1,70 @@
+<div class="route-entries">
+    <h2>Route Entries</h2>
+    <table
+        mat-table
+        [dataSource]="routeList"
+        class="mat-elevation-z8">
+        <!-- Network Column -->
+        <ng-container matColumnDef="network">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Network
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let route">
+                {{ route.network }}
+            </td>
+        </ng-container>
+
+        <!-- Netmask Column -->
+        <ng-container matColumnDef="netmask">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Netmask
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let route">
+                {{ route.netmask }}
+            </td>
+        </ng-container>
+
+        <!-- Source Column -->
+        <ng-container matColumnDef="source">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Source
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let route">
+                {{ route.source }}
+            </td>
+        </ng-container>
+
+        <!-- Gateway Column -->
+        <ng-container matColumnDef="gateway">
+            <th
+                mat-header-cell
+                *matHeaderCellDef>
+                Gateway
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let route">
+                {{ route.gateway }}
+            </td>
+        </ng-container>
+
+        <tr
+            mat-header-row
+            *matHeaderRowDef="['network', 'netmask', 'source', 'gateway']"></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: ['network', 'netmask', 'source', 'gateway']"></tr>
+    </table>
+</div>
