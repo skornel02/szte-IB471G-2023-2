@@ -8,6 +8,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideToastr } from 'ngx-toastr';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -15,14 +16,7 @@ export const appConfig: ApplicationConfig = {
         provideClientHydration(),
         importProvidersFrom(
             provideFirebaseApp(() =>
-                initializeApp({
-                    projectId: 'router-ui-szte',
-                    appId: '1:943762268884:web:840df8a7be533095651141',
-                    storageBucket: 'router-ui-szte.appspot.com',
-                    apiKey: 'AIzaSyAsGwKQ2cx8wh1heALDReFdpBQjpVYlrVo',
-                    authDomain: 'router-ui-szte.firebaseapp.com',
-                    messagingSenderId: '943762268884',
-                })
+                initializeApp(environment.firebase)
             )
         ),
         importProvidersFrom(provideAuth(() => getAuth())),
